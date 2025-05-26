@@ -18,8 +18,3 @@ Kullanabileceğin komutlar:
 `);
 });
 
-bot.on("message", (msg) => {
-  if (!msg.text.startsWith("/")) {
-    bot.sendMessage(msg.chat.id, "📩 Komut algılanmadı. Yardım için /help yaz.");
-  }
-});
