@@ -68,3 +68,40 @@ bot.on("callback_query", (query) => {
     bot.sendMessage(chatId, "⚠️ Zaten işlem yapıldı. Durum güncellenemez.");
   }
 });
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
+
+app.post('/basvuru', (req, res) => {
+  const data = req.body;
+  const { ad, yas, diploma, egitim, telefon } = data;
+
+  const text = `📥 Yeni Başvuru
+
+👤 Ad Soyad: ${ad}
+🎂 Yaş: ${yas}
+📘 Diploma: ${diploma}
+🎓 Eğitim Durumu: ${egitim}
+📞 Telefon: ${telefon}`;
+
+  const options = {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          { text: "✅ Takibe Al", callback_data: "takip" },
+          { text: "❌ İlgilenme", callback_data: "sil" },
+          { text: "📝 Not Ekle", callback_data: "not" }
+        ]
+      ]
+    }
+  };
+
+  bot.sendMessage(process.env.CHAT_ID, text, options);
+  res.send({ ok: true });
+});
+
+app.listen(3000, () => {
+  console.log("Bot + API çalışıyor");
+});
