@@ -40,4 +40,20 @@ bot.onText(/\/basvuru/, (msg) => {
 
   bot.sendMessage(msg.chat.id, text, options);
 });
+bot.on("callback_query", (query) => {
+  const chatId = query.message.chat.id;
+  const action = query.data;
 
+  if (action === "takip") {
+    bot.sendMessage(chatId, "✅ Takibe alındı.");
+  } else if (action === "sil") {
+    bot.sendMessage(chatId, "❌ Kayıt ilgilenilmeyecek olarak işaretlendi.");
+  } else if (action === "not") {
+    bot.sendMessage(chatId, "📝 Lütfen notunuzu yazın:");
+    
+    bot.once("message", (msg) => {
+      bot.sendMessage(chatId, `📌 Not kaydedildi: ${msg.text}`);
+      // Buraya Google Sheets'e yazan kod gelecek
+    });
+  }
+});
